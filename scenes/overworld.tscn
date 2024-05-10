@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://dge1y3ks6hn0h"]
+
+[ext_resource type="Script" path="res://scenes/overworld.gd" id="1_1ecaj"]
+[ext_resource type="TileSet" uid="uid://deippwyf75tl6" path="res://data/tilemap_overworld.tres" id="1_r0oli"]
+[ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_a4fl4"]
+
+[sub_resource type="Gradient" id="Gradient_eom0j"]
+offsets = PackedFloat32Array(0.409091, 0.496318, 0.546392, 0.580265, 0.63623, 0.698085)
+colors = PackedColorArray(0, 0, 0.988235, 1, 0.944803, 0.8809, 0.431364, 1, 0.952518, 0.897548, 0.510851, 1, 0.516173, 0.295138, 0.203059, 1, 0.49447, 0.265176, 0.18775, 1, 1.37173e-06, 0.525218, 0.231756, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lxr7j"]
+noise_type = 0
+frequency = 0.0047
+offset = Vector3(-256.5, 603.45, -474.14)
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qj82q"]
+seamless_blend_skirt = 0.049
+color_ramp = SubResource("Gradient_eom0j")
+noise = SubResource("FastNoiseLite_lxr7j")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_1ecaj")
+noise_height_text = SubResource("NoiseTexture2D_qj82q")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_r0oli")
+format = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_a4fl4")
+speed = 1000
