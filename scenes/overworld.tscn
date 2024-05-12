@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/overworld.gd" id="1_1ecaj"]
 [ext_resource type="TileSet" uid="uid://deippwyf75tl6" path="res://data/tilemap_overworld.tres" id="1_r0oli"]
-[ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_a4fl4"]
+[ext_resource type="Script" path="res://scenes/camera.gd" id="3_a4fl4"]
 
 [sub_resource type="Gradient" id="Gradient_eom0j"]
 offsets = PackedFloat32Array(0.409091, 0.496318, 0.546392, 0.580265, 0.63623, 0.698085)
@@ -10,7 +10,7 @@ colors = PackedColorArray(0, 0, 0.988235, 1, 0.944803, 0.8809, 0.431364, 1, 0.95
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxr7j"]
 noise_type = 0
-frequency = 0.0047
+frequency = 0.0315
 offset = Vector3(-256.5, 603.45, -474.14)
 metadata/_preview_in_3d_space_ = true
 
@@ -26,7 +26,9 @@ noise_height_text = SubResource("NoiseTexture2D_qj82q")
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("1_r0oli")
 format = 2
+layer_0/name = "Terreno"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("3_a4fl4")
 speed = 1000
+zoom_spd = 1.1
