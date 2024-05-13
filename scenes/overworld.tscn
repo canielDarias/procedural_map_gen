@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dge1y3ks6hn0h"]
+[gd_scene load_steps=15 format=3 uid="uid://dge1y3ks6hn0h"]
 
 [ext_resource type="Script" path="res://scenes/overworld.gd" id="1_1ecaj"]
 [ext_resource type="TileSet" uid="uid://deippwyf75tl6" path="res://data/tilemap_overworld.tres" id="1_r0oli"]
 [ext_resource type="Script" path="res://scenes/camera.gd" id="3_a4fl4"]
+[ext_resource type="Script" path="res://data/mapper.gd" id="4_oj7pt"]
+[ext_resource type="Script" path="res://data/Biome_Threshold.gd" id="5_vds73"]
 
 [sub_resource type="Gradient" id="Gradient_eom0j"]
 offsets = PackedFloat32Array(0.409091, 0.496318, 0.546392, 0.580265, 0.63623, 0.698085)
@@ -10,25 +12,69 @@ colors = PackedColorArray(0, 0, 0.988235, 1, 0.944803, 0.8809, 0.431364, 1, 0.95
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lxr7j"]
 noise_type = 0
-frequency = 0.0315
+frequency = 0.003
 offset = Vector3(-256.5, 603.45, -474.14)
+fractal_lacunarity = 3.0
+fractal_gain = 0.4
 metadata/_preview_in_3d_space_ = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qj82q"]
+width = 100
+height = 100
 seamless_blend_skirt = 0.049
 color_ramp = SubResource("Gradient_eom0j")
 noise = SubResource("FastNoiseLite_lxr7j")
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wrovr"]
+noise_type = 0
+frequency = 0.0062
+fractal_octaves = 1
+fractal_lacunarity = 3.0
+fractal_gain = 0.4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gkoi6"]
+noise = SubResource("FastNoiseLite_wrovr")
+
+[sub_resource type="Gradient" id="Gradient_goetm"]
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_36sf5"]
+frequency = 0.0085
+fractal_octaves = 2
+fractal_lacunarity = 3.0
+fractal_gain = 0.4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lwc5t"]
+color_ramp = SubResource("Gradient_goetm")
+noise = SubResource("FastNoiseLite_36sf5")
+
+[sub_resource type="Resource" id="Resource_oqc5p"]
+script = ExtResource("5_vds73")
+biome_name = ""
+temperature = 0
+humidity = 0
+heigth = 0
+biomes = Array[Vector2i]([])
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_1ecaj")
 noise_height_text = SubResource("NoiseTexture2D_qj82q")
+temperature_noise_text = SubResource("NoiseTexture2D_gkoi6")
+humidity_noise_text = SubResource("NoiseTexture2D_lwc5t")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("1_r0oli")
 format = 2
 layer_0/name = "Terreno"
+layer_0/tile_data = PackedInt32Array(0, 3, 0, 1, 262147, 0, 2, 262147, 0, 3, 262147, 0, 4, 262147, 0, 5, 262147, 0, 6, 262147, 0, 7, 262147, 0, 65535, 524291, 0, 65534, 524291, 0, 65533, 524291, 0, 65532, 524291, 0, 65531, 524291, 0, 65530, 524291, 0, 65529, 524291, 0, 65528, 524291, 0, -65536, 3, 0, -131072, 3, 0, -196608, 3, 0, -262144, 3, 0, -327680, 3, 0, 65536, 3, 0, 131072, 393219, 0, 196608, 393219, 0, 262144, 393219, 0, 327680, 393219, 0, 393216, 393219, 0, -262139, 786435, 0, -262138, 786435, 0, -262137, 786435, 0, -262136, 786435, 0, -327672, 786435, 0, -393208, 786435, 0, -458744, 786435, 0, -524280, 786435, 0, -589817, 786435, 0, -655354, 786435, 0, -262140, 786435, 0, -327677, 786435, 0, -393214, 786435, 0, -458750, 786435, 0, -524286, 786435, 0, -524285, 786435, 0, -655355, 786435, 0, -655356, 786435, 0, -589820, 786435, 0, -524284, 786435, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("3_a4fl4")
-speed = 1000
+speed = 5000
 zoom_spd = 1.1
+zoom_up_limit = 3.0
+zoom_down_limit = 3.0
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("4_oj7pt")
+biom = SubResource("Resource_oqc5p")

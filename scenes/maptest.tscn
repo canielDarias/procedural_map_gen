@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://c34q18wentk3f"]
+
+[ext_resource type="Script" path="res://scenes/maptest.gd" id="1_idkim"]
+[ext_resource type="TileSet" uid="uid://deippwyf75tl6" path="res://data/tilemap_overworld.tres" id="1_iwikr"]
+[ext_resource type="Script" path="res://scenes/camera.gd" id="3_5pt2c"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n62b1"]
+noise_type = 2
+frequency = 0.0235
+fractal_octaves = 1
+fractal_lacunarity = 0.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_eqelm"]
+noise = SubResource("FastNoiseLite_n62b1")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_idkim")
+noise_height_text = SubResource("NoiseTexture2D_eqelm")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_iwikr")
+format = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_5pt2c")
+speed = 1000
+zoom_spd = 1.1
