@@ -12,30 +12,15 @@ var zoomin : bool
 func _ready():
 	zoom_trg = 1
 
-func _process(delta):
-	var velocity = Vector2()
-	var zm = Vector2()
-	
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
+func _process(_delta):
 	if Input.is_action_just_released("scroll_up") && zoom_trg <= pow(zoom_up_limit, 2)/2:
 		zoom_trg *= 2
 		zoomin = true
 	if Input.is_action_just_released("scroll_down") && zoom_trg >= 2/pow(zoom_down_limit, 2):
 		zoom_trg /= 2
 		zoomin = false
-		
-	velocity = velocity.normalized() * speed * delta
 	
 	if zoom_trg > zoom.x && zoomin:
 		zoom *= zoom_spd
 	if zoom_trg < zoom.x && !zoomin:
 		zoom /= zoom_spd
-	
-	global_position += velocity

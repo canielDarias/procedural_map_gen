@@ -10,6 +10,9 @@ var humidity_noise : Noise
 var width : int = 640
 var heigth : int = 480
 @onready var tile_map = $TileMap
+@onready var player = $Player
+
+signal tile_clicked
 
 #region TileSet Terrains
 var source_id = 3
@@ -148,11 +151,17 @@ func _ready():
 	temperature_noise = temperature_noise_text.noise
 	humidity_noise = humidity_noise_text.noise
 	generate_world()
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("ui_accept"):
 		generate_world()
-
+		
+	if Input.is_action_just_released("cursor_click"):
+		var cell_coords = tile_map.local_to_map(tile_map.get_local_mouse_position())
+		var cell_type_index = tile_map.to_local(cell_coords)
+		#print(tile_map.tile_set.tile_get_name(cell_type_index))
+		var cell_world_pos_local = tile_map.map_to_local(cell_coords)
+		var cell_world_pos_global = tile_map.to_global(cell_world_pos_local)
+		player.global_position = cell_world_pos_global + tile_map.rendering_quadrant_size/2
