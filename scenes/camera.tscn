@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cogh8n0jwi2cj"]
+
+[ext_resource type="Script" path="res://scenes/camera.gd" id="1_qbsph"]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2(-17, -12)
+script = ExtResource("1_qbsph")
+speed = 5000
+zoom_spd = 1.1
+zoom_up_limit = 3.0
+zoom_down_limit = 3.0
